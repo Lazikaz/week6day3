@@ -19,4 +19,11 @@ app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "../index.html"))
 })
 
-app.listen(process.env.PORT, () => {console.log("running!")})
+try{
+    doSomething()
+}
+catch(error){
+rollbar.error(error)
+}
+
+app.listen(process.env.PORT, () => {console.log("running!")}).catch(() => {rollbar.critical("Server failed to launch")})
